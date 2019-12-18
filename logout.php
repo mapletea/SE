@@ -1,3 +1,4 @@
+<!-- 登出頁面 -->
 <?php
 session_start();
 $_SESSION['loginProfile'] = NULL;

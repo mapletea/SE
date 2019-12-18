@@ -11,10 +11,10 @@ function addUser($id, $password, $name){
 	if ($row = mysqli_fetch_assoc($result1)) { // 有相同ID，註冊失敗
 		$ret = 0;
 	} else { // 沒有相同ID，註冊(DB新增一列)
-		$status = 0;
+		$role = 1;
 	    $sql2 ="INSERT INTO user(ID, password, name, role) values (?, ?, ?, ?)";
 	    $stmt2 = mysqli_prepare($db, $sql2);
-	    mysqli_stmt_bind_param($stmt2, "sssi", $id, $password, $name, $status);
+	    mysqli_stmt_bind_param($stmt2, "sssi", $id, $password, $name, $role);
 	    mysqli_stmt_execute($stmt2);
 	    $result2 = mysqli_stmt_get_result($stmt2);
 	    $ret=1;

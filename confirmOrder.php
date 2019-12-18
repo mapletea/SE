@@ -1,48 +1,59 @@
-<!-- 客戶登入後主頁面 -->
+<!-- 列出購物清單，並確認購買 -->
 <?php
 session_start();
 // 確認是否已登入
 if (!isSet($_SESSION["loginProfile"] )) {
 	header("Location: loginUI.php");
 }
-require("prdModel.php");
+require("orderModel.php");
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Basic HTML Examples</title>
+<title>Examples</title>
 </head>
 <body>
-<p>This is the MAIN page [<a href="logout.php">logout</a>]</p>
+<p>This is the Shopping Cart Detail 
+[<a href="logout.php">logout</a>]
+</p>
 <hr>
 <!-- 個人資訊 -->
 <?php
 	echo "Hello ", $_SESSION["loginProfile"]["uName"],
 	", Your ID is: ", $_SESSION["loginProfile"]["uID"],
 	", Your Role is: ", $_SESSION["loginProfile"]["uRole"],"<HR>";
-	$result=getPrdList(); // prdModel.php
+	$result=getCartDetail($_SESSION["loginProfile"]["uID"]); // orderModel.php
 ?>
 <!-- showOrders -->
-<a href="showOrders.php">List My Orders</a><hr>
-<!-- showProduct & addProduct -->
+<a href="showOrders.php">List My Cart Items</a><hr>
 <table width="200" border="1">
   <tr>
     <td>id</td>
-    <td>name</td>
+    <td>Prd Name</td>
     <td>price</td>
-    <td>+</td>
+    <td>Quantity</td>
+    <td>Amount</td>
   </tr>
 <?php
+$total=0;
 while ($rs=mysqli_fetch_assoc($result)) {
-	echo "<tr><td>" . $rs['prdID'] . "</td>";
+	echo "<tr><td>" . $rs['serno'] . "</td>";
 	echo "<td>{$rs['name']}</td>";
 	echo "<td>" , $rs['price'], "</td>";
-	echo "<td><a href='addToCart.php?prdID=" , $rs['prdID'] , "'>Add</a></td></tr>";
+	echo "<td>" , $rs['quantity'], "</td>";
+	$total += $rs['quantity'] *$rs['price'];
+	echo "<td>" , $rs['quantity'] *$rs['price'] , "</td><tr/>";
 }
+echo "<tr><td>Total: $total</td></tr>";
 ?>
 </table>
-<!-- showCartDetail and go checkout page -->
-<a href="showCartDetail.php">Checkout cart</a><hr>
+<hr>
+<!-- checkout -->
+<form action="checkoutControl.php" method="post">
+請輸入寄送地址：<input type="text" name="address"><br>
+<input type="submit">
+</form>
+<a href="main.php">No, keep shopping</a>
 </body>
 </html>

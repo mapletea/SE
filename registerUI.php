@@ -15,7 +15,7 @@
 <tr><td>ID: </td><td><input type="text" name="ID"></td></tr>
 <tr><td>Password: </td><td><input type="password" name="PWD"></td></tr>
 <tr><td>Name: </td><td><input type="text" name="NAME"></td></tr>
-<tr><td></td><td><input type="submit" value="註冊"></td></tr>
+<tr><td><a href="main.php">Return</a></td><td><input type="submit" value="註冊"></td></tr>
 </form>
 </table>
 <hr>

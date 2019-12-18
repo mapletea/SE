@@ -1,62 +1,108 @@
 <?php
 require_once("dbconfig.php");
 
+// showOrder.php
 function getOrderList($uID) {
 	global $db;
 	$sql = "SELECT ordID, date, status FROM userOrder WHERE uID=?";
-	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
-	mysqli_stmt_bind_param($stmt, "s", $uID); //bind parameters with variables
-	mysqli_stmt_execute($stmt);  //執行SQL
-    $result = mysqli_stmt_get_result($stmt); //get the results
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "s", $uID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 	return $result;
 }
 
+// admin.php
+function getConfirmedOrderList() {
+	global $db;
+	$sql = "SELECT ordID, uID, orderDate FROM userOrder WHERE status=1";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+	return $result;
+}
+
+// function addToCart($uID, $prdID)
 function _getCartID($uID) {
 	//get an unfished order (status=0) from userOrder
 	global $db;
 	$sql = "SELECT ordID FROM userorder WHERE uID=? and status=0";
 	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
-	mysqli_stmt_bind_param($stmt, "s", $uID); //bind parameters with variables
-	mysqli_stmt_execute($stmt);  //執行SQL
-    $result = mysqli_stmt_get_result($stmt); //get the results
+	mysqli_stmt_bind_param($stmt, "s", $uID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 	if ($row=mysqli_fetch_assoc($result)) {
 		return $row["ordID"];
 	} else {
-		//no order with status=0 is found, which means we need to creat an empty order as the new shopping cart
 		$sql = "insert into userOrder ( uID, status ) values (?,0)";
-		$stmt = mysqli_prepare($db, $sql); //prepare sql statement
-		mysqli_stmt_bind_param($stmt, "s", $uID); //bind parameters with variables
-		mysqli_stmt_execute($stmt);  //執行SQL
+		$stmt = mysqli_prepare($db, $sql);
+		mysqli_stmt_bind_param($stmt, "s", $uID);
+		mysqli_stmt_execute($stmt);
 		$newOrderID=mysqli_insert_id($db);
 		return $newOrderID;
 	}
 }
 
+// addToChart.php
 function addToCart($uID, $prdID) {
 	global $db;
 	$ordID= _getCartID($uID);
 	$sql = "insert into orderItem (ordID, prdID, quantity) values (?,?,1);";
-	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
-	mysqli_stmt_bind_param($stmt, "ii", $ordID, $prdID); //bind parameters with variables
-	mysqli_stmt_execute($stmt);  //執行SQL
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "ii", $ordID, $prdID);
+	mysqli_stmt_execute($stmt);
 }
 
-function removeFromCart($uID, $prdID) {
-	return false;
+// addFromCart.php
+function removeFromCart($serno) {
+	global $db;
+	$sql = "delete from orderItem where serno=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $serno);
+	mysqli_stmt_execute($stmt);
 }
 
-function checkout($ordID, $address) {
-	return false;
+// checkoutControl.php
+function checkout($uID, $address) {
+	global $db;
+	$ordID= _getCartID($uID);
+	// checkout the order, modify status to 1
+	$sql = "update userorder set orderDate=now(),address=?,status=1 where ordID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "si", $address, $ordID);
+	return mysqli_stmt_execute($stmt);
 }
 
+// setShipped.php
+function shipout($ordID) {
+	global $db;
+	// company check the order, modify status to 2
+	$sql = "update userorder set status=2 where ordID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $ordID);
+	return mysqli_stmt_execute($stmt);
+}
+
+// showCartDetail.php
 function getCartDetail($uID) {
 	global $db;
 	$ordID= _getCartID($uID);
 	$sql="select orderItem.serno, product.name, product.price, orderItem.quantity from orderItem, product where orderItem.prdID=product.prdID and orderItem.ordID=?";
-	$stmt = mysqli_prepare($db, $sql); //prepare sql statement
-	mysqli_stmt_bind_param($stmt, "i", $ordID); //bind parameters with variables
-	mysqli_stmt_execute($stmt);  //執行SQL
-    $result = mysqli_stmt_get_result($stmt); //get the results
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $ordID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt); 
+	return $result;
+}
+
+// showOrderDetail.php
+function getOrderDetail($ordID) {
+	global $db;
+	$sql="select orderItem.serno, product.name, product.price, orderItem.quantity from orderItem, product where orderItem.prdID=product.prdID and orderItem.ordID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $ordID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
 	return $result;
 }
 ?>
