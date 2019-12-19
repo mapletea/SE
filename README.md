@@ -6,3 +6,7 @@ client can register.
 
 2019/12/18
 customer can remove from item.
+
+2019/12/19
+customer can view old orders.
+manager can add a new item.

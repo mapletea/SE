@@ -1,4 +1,4 @@
-<!-- 列出order -->
+<!-- 列出歷史order -->
 <?php
 session_start();
 // 確認是否已登入
@@ -11,15 +11,14 @@ require("orderModel.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Basic HTML Examples</title>
+<title>Show Order</title>
 </head>
 <body>
-<p>This is the MAIN page</p>
+<p>This is your order list</p>
 <hr>
-Your Login status: ? 
 <?php
-	echo $_SESSION['status'], $_SESSION['uID'],"<HR>";
-	$result=getOrderList($_SESSION['uID']); // orderModel.php
+	//echo $_SESSION["loginProfile"]['uID'];
+	$result=getOldOrderList($_SESSION["loginProfile"]['uID']); // orderModel.php
 ?>
 <table width="200" border="1">
   <tr>
@@ -30,7 +29,7 @@ Your Login status: ?
 <?php
 while ($rs=mysqli_fetch_assoc($result)) {
 	echo "<tr><td>" . $rs['ordID'] . "</td>";
-	echo "<td>{$rs['orderDate']}</td>";
+	echo "<td>" . $rs['orderDate'] . "</td>";
 	echo "<td>" , $rs['status'], "</td>";
 	//echo "<td><a href='addToCart.php?prdID='" . $rs['prdID'] . "'>Add</a></td>";
 	echo "</tr>";

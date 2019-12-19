@@ -12,6 +12,17 @@ function getOrderList($uID) {
 	return $result;
 }
 
+// showOrder.php
+function getOldOrderList($uID) {
+	global $db;
+	$sql = "SELECT ordID, orderDate, status FROM userOrder WHERE uID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "s", $uID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+	return $result;
+}
+
 // admin.php
 function getConfirmedOrderList() {
 	global $db;

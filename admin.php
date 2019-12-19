@@ -19,7 +19,6 @@ if (!isSet($_SESSION["loginProfile"])) {
 <body>
 <p>This is the Admin page 
 [<a href="logout.php">logout</a>]
-
 </p>
 <hr>
 <?php
@@ -28,7 +27,9 @@ if (!isSet($_SESSION["loginProfile"])) {
 	", Your Role is: ", $_SESSION["loginProfile"]["uRole"],"<HR>";
 	$result=getConfirmedOrderList(); //orderModel.php
 ?>
-	<table width="200" border="1">
+<!-- showOrders -->
+<a href="viewItem.php">List All Item</a><hr>
+<table width="200" border="1">
   <tr>
     <td>id</td>
     <td>name</td>
