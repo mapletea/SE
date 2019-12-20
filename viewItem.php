@@ -26,19 +26,23 @@ if (!isSet($_SESSION["loginProfile"])) {
     <td>name</td>
     <td>price</td>
     <td>detail</td>
+    <td>modify</td>
+    <td>-</td>
   </tr>
 <?php
 $result=getPrdList(); // prdModel.php
 while ($rs=mysqli_fetch_assoc($result)) {
-	echo "<tr><td>" . $rs['prdID'] . "</td>";
-	echo "<td>". $rs['name'] . "</td>";
+    echo "<tr><td>" . $rs['prdID'] . "</td>";
+    echo "<td>". $rs['name'] . "</td>";
     echo "<td>" . $rs['price'] . "</td>";
     echo "<td>" . $rs['detail'] . "</td>";
+    echo "<td><a href='modifyItem.php?prdID=" , $rs['prdID'] , "&name=" , $rs['name'] , "&price=" , $rs['price'], "&detail=" , $rs['detail'], "'>Modifiy</a></td>";
+    echo "<td><a href='removeItem.php?prdID=" , $rs['prdID'] , "'>Remove</a></td>";
 }
 ?>
 </table>
 <hr>
-<a href="admin.php">Return</a>
+<a href="admin.php">Back to admin page</a>
 <?php 
 echo "<a href='addItemUI.php?'>Add</a>";
 ?>

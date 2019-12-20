@@ -12,4 +12,4 @@ if (checkout($_SESSION["loginProfile"]["uID"], $address)){
     echo "sorry. 請再試一次<br/>";
 }
 ?>
-<a href='main.php'>OK</a>
+<a href='main.php'>Return to MAIN page</a>

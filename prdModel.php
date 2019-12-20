@@ -30,6 +30,23 @@ function addItem($name, $price, $detail){
 	}
 }
 
+// addItemControl.php
+function removeItem($prdID){
+	global $db;
+	$sql = "delete from product where prdID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "i", $prdID);
+	mysqli_stmt_execute($stmt);
+}
+
+// modifyItemControl.php
+function modifyItem($prdID, $name, $price, $detail){
+	global $db;
+	$sql = "update product set name=?,price=?,detail=? where prdID=?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "sisi", $name, $price, $detail, $prdID);
+	return mysqli_stmt_execute($stmt);
+}
 ?>
 
 

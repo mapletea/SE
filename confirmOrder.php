@@ -11,7 +11,7 @@ require("orderModel.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Examples</title>
+<title>Confirm Order</title>
 </head>
 <body>
 <p>This is the Shopping Cart Detail 
@@ -27,7 +27,7 @@ require("orderModel.php");
 ?>
 <!-- showOrders -->
 <a href="showOrders.php">List My Cart Items</a><hr>
-<table width="200" border="1">
+<table border="1">
   <tr>
     <td>id</td>
     <td>Prd Name</td>
@@ -45,15 +45,14 @@ while ($rs=mysqli_fetch_assoc($result)) {
 	$total += $rs['quantity'] *$rs['price'];
 	echo "<td>" , $rs['quantity'] *$rs['price'] , "</td><tr/>";
 }
-echo "<tr><td>Total: $total</td></tr>";
+echo "<tr><td>Total: </td><td colspan='4'>$total</td></tr>";
 ?>
 </table>
 <hr>
 <!-- checkout -->
 <form action="checkoutControl.php" method="post">
-請輸入寄送地址：<input type="text" name="address"><br>
-<input type="submit">
+請輸入寄送地址：<input type="text" name="address">
+<input type="submit"><a href="main.php"><br>No, keep shopping</a>
 </form>
-<a href="main.php">No, keep shopping</a>
 </body>
 </html>

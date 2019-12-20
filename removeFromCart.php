@@ -1,9 +1,12 @@
 <!-- 移出購物車頁面 -->
 <?php
 session_start();
-// 確認是否已登入
-if (!isSet($_SESSION["loginProfile"] )) {
+// 確認登入
+if (!isSet($_SESSION["loginProfile"])) {
 	header("Location: loginUI.php");
+	if ($_SESSION['loginProfile']['uRole'] != 9) {
+		header("Location: main.php");
+	}
 }
 require("orderModel.php");
 ?>

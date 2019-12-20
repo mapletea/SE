@@ -14,7 +14,7 @@ if (!isSet($_SESSION["loginProfile"])) {
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Basic HTML Examples</title>
+<title>Admin page</title>
 </head>
 <body>
 <p>This is the Admin page 

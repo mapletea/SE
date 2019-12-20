@@ -1,3 +1,4 @@
+<!-- 管理員確認商品 -->
 <?php
 session_start();
 if (!isSet($_SESSION["loginProfile"] )) {
@@ -10,10 +11,10 @@ $ordID=(int)$_GET['ID'];
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Examples</title>
+<title>All Order detail</title>
 </head>
 <body>
-<p>Your Order detail is : 
+<p>All Order detail is 
 [<a href="logout.php">logout</a>]
 </p>
 <hr>
@@ -24,7 +25,7 @@ $ordID=(int)$_GET['ID'];
 	$result=getOrderDetail($ordID); // orderModel.php
 ?>
 
-	<table width="200" border="1">
+<table border="1">
   <tr>
     <td>id</td>
     <td>Prd Name</td>
@@ -43,13 +44,13 @@ while (	$rs=mysqli_fetch_assoc($result)) {
 	echo "<td>" , $rs['quantity'] *$rs['price'] , "</td>";
 	echo "</tr>";
 }
-echo "<tr><td>Total: $total</td></tr>";
+echo "<tr><td>Total: </td><td colspan='4'>$total</td></tr>";
 ?>
 </table>
 <!-- 確認貨物後，回應訂單已處理 -->
 <a href="setShipped.php?id=<?php echo $ordID; ?>">OK, I got it!</a>
 <hr>
-<a href="admin.php">back</a>
+<a href="admin.php">Back to admin page</a>
 </form>
 </body>
 </html>

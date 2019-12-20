@@ -11,7 +11,7 @@ require("orderModel.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Examples</title>
+<title>Shopping Cart Detail </title>
 </head>
 <body>
 <p>This is the Shopping Cart Detail 
@@ -47,11 +47,11 @@ while ($rs=mysqli_fetch_assoc($result)) {
 	echo "<td>" , $rs['quantity'] *$rs['price'] , "</td>";
 	echo "<td><a href='removeFromCart.php?serno=" , $rs['serno'] , "'>Remove</a></td></tr>";
 }
-echo "<tr><td>Total: $total</td></tr>";
+echo "<tr><td>Total: </td><td colspan='4'>$total</td></tr>";
 ?>
 </table>
 <hr>
 <!-- checkout -->
-<a href="confirmOrder.php">Yes Checkout</a>  <a href="main.php">No, keep shopping</a>
+<a href="confirmOrder.php">Yes, Checkout</a>  <a href="main.php">No, keep shopping</a>
 </body>
 </html>

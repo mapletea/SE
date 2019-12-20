@@ -36,7 +36,7 @@ while ($rs=mysqli_fetch_assoc($result)) {
 }
 ?>
 </table>
-<a href="main.php">OK</a><hr>
-
+<hr>
+<a href="main.php">OK</a>
 </body>
 </html>
