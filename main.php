@@ -11,7 +11,7 @@ require("prdModel.php");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Admin page</title>
+<title>MAIN page</title>
 </head>
 <body>
 <p>This is the MAIN page [<a href="logout.php">logout</a>]</p>

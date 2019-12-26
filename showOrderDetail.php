@@ -1,8 +1,11 @@
 <!-- 管理員確認商品 -->
 <?php
 session_start();
-if (!isSet($_SESSION["loginProfile"] )) {
+if (!isSet($_SESSION["loginProfile"])) {
 	header("Location: loginUI.php");
+}
+if ($_SESSION['loginProfile']['uRole'] != 9) {
+	header("Location: main.php");
 }
 require("orderModel.php");
 $ordID=(int)$_GET['ID'];
@@ -37,7 +40,7 @@ $ordID=(int)$_GET['ID'];
 $total=0;
 while (	$rs=mysqli_fetch_assoc($result)) {
 	echo "<tr><td>" . $rs['serno'] . "</td>";
-	echo "<td>{$rs['name']}</td>";
+	echo "<td>". $rs['name'] . "</td>";
 	echo "<td>" , $rs['price'], "</td>";
 	echo "<td>" , $rs['quantity'], "</td>";
 	$total += $rs['quantity'] *$rs['price'];

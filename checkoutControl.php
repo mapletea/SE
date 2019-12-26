@@ -1,7 +1,7 @@
 <!-- 訂單處理頁面 -->
 <?php
 session_start();
-if ( ! isSet($_SESSION["loginProfile"] )) {
+if (!isSet($_SESSION["loginProfile"] )) {
 	header("Location: loginUI.php");
 }
 require("orderModel.php");

@@ -45,7 +45,7 @@ function _getCartID($uID) {
 	if ($row=mysqli_fetch_assoc($result)) {
 		return $row["ordID"];
 	} else {
-		$sql = "insert into userOrder ( uID, status ) values (?,0)";
+		$sql = "insert into userOrder (uID, status) values (?,0)";
 		$stmt = mysqli_prepare($db, $sql);
 		mysqli_stmt_bind_param($stmt, "s", $uID);
 		mysqli_stmt_execute($stmt);
@@ -54,14 +54,36 @@ function _getCartID($uID) {
 	}
 }
 
+function _getQuantity($ordID, $prdID){
+	global $db;
+    $sql = "SELECT quantity FROM orderItem WHERE ordID = ? AND prdID = ?";
+	$stmt = mysqli_prepare($db, $sql);
+	mysqli_stmt_bind_param($stmt, "ii", $ordID, $prdID);
+	mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+	if ($row=mysqli_fetch_assoc($result)) {
+		return $row["quantity"];
+	} else {
+		$sql = "insert into orderItem (ordID, prdID, quantity) values (?,?,1)";
+		$stmt = mysqli_prepare($db, $sql);
+		mysqli_stmt_bind_param($stmt, "ii", $ordID, $prdID);
+		mysqli_stmt_execute($stmt);
+		return 0;
+	}
+}
+
 // addToChart.php
 function addToCart($uID, $prdID) {
 	global $db;
 	$ordID= _getCartID($uID);
-	$sql = "insert into orderItem (ordID, prdID, quantity) values (?,?,1);";
-	$stmt = mysqli_prepare($db, $sql);
-	mysqli_stmt_bind_param($stmt, "ii", $ordID, $prdID);
-	mysqli_stmt_execute($stmt);
+	$have = _getQuantity($ordID, $prdID);
+	if ($have != 0){
+        $sql = "update orderItem set ordID=?, prdID=?, quantity=?";
+	    $stmt = mysqli_prepare($db, $sql);
+	    $now = $have+1;
+	    mysqli_stmt_bind_param($stmt, "iii", $ordID, $prdID, $now);
+	    mysqli_stmt_execute($stmt);
+	}
 }
 
 // addFromCart.php
